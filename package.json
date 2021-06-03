@@ -18,7 +18,7 @@
     "nodemon": "^2.0.7"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"yarn server\" ",
+    "start": "concurrently --kill-others-on-fail \"react-scripts start\" \"yarn server\" ",
     "server": "nodemon stub/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

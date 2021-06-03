@@ -1,11 +1,17 @@
 import {combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk'
-import view1Reducer from './view1Reducer'
+import topReducer from './topReducer'
+import middleReducer from './middleReducer';
 
 
-const reducers = combineReducers({view1: view1Reducer});
+const reducers = combineReducers(
+    {
+        top: topReducer,
+        middle: middleReducer
+    }
+);
 
 const store = createStore(reducers, applyMiddleware(thunk));
-console.log(store.getState());
+window.store = store;
 
 export default store;

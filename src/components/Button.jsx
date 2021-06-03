@@ -1,16 +1,23 @@
 import React from 'react';
-import {Button as ButtonM} from '@material-ui/core';
+import {Button as ButtonM, makeStyles} from '@material-ui/core';
 
-const buttonStyle = {
-    backgroundColor: 'green',
-    color: 'white',
-}
+const useStyles = makeStyles({
+    customButton: {
+        backgroundColor: 'green',
+        color: 'white',
+    },
+    common: {
+        margin: '0 40px 0 40px'
+    }
+    
+})
 
-console.log('sdfsge');
 
 function Button({ styleCustom, ...props }){
+    const classes = useStyles();
+
     return (
-        <ButtonM {...props} className='button' variant='contained' style={styleCustom && buttonStyle}>
+        <ButtonM {...props} className={`${classes.common} ${styleCustom && classes.customButton}`} variant='contained'>
             {props.children}
         </ButtonM>
     )

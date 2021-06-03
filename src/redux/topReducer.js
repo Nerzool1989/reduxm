@@ -1,9 +1,3 @@
-const initialState = {
-    counter: 0,
-    action: '',
-    disable: false
-}
-
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 export const DISABLE = 'DISABLE';
@@ -13,7 +7,11 @@ export const incrementAction = () => ({type: INCREMENT})
 
 export const decrementAction = () => ({type: DECREMENT})
 
-export const disableAction = (disable) => ({type: DISABLE, disable: disable})
+//Разобрать в чем преимущество обычного подхода РТК между этим
+
+
+//может взять этот как общий ??
+export const disableAction = (disabled) => ({type: DISABLE, disabled: disabled})
 
 export const asyncIncrementAction = () => (dispath) => {
     dispath(disableAction(true));
@@ -26,13 +24,18 @@ export const asyncIncrementAction = () => (dispath) => {
     )
 }
 
+const initialState = {
+    counter: 0,
+    action: '',
+    disabled: false
+}
 
-const view1Reducer = (state = initialState, action) => {
+const topReducer = (state = initialState, action) => {
+    console.log('topReducer');
     switch(action.type){
         case INCREMENT:
-            console.log(state)
             return {
-                ...state, //Общий ?? проверить
+                ...state,
                 counter: state.counter + 1,
                 action: "Увеличили"
             }
@@ -51,7 +54,7 @@ const view1Reducer = (state = initialState, action) => {
         case DISABLE: 
             return {
                 ...state,
-                disable: action.disable
+                disabled: action.disabled
             }
         default:
             return state
@@ -59,4 +62,4 @@ const view1Reducer = (state = initialState, action) => {
    
 }
 
-export default view1Reducer;
+export default topReducer;
