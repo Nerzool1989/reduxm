@@ -30,8 +30,6 @@ const mapStateToProps = (state) => {
     return state.top
 }
 
-//мне это всегда было неудобно вот такой вид, да плюс разбираться и отделять какие пропсы 
-//от редакса, а какие я передал от родителя, ну такое себе
 
 const mapDispatchToProps = (dispatch) => {
     console.log('mapDispatchTOP')
