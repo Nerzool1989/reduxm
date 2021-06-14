@@ -7,10 +7,6 @@ export const incrementAction = () => ({type: INCREMENT})
 
 export const decrementAction = () => ({type: DECREMENT})
 
-//Разобрать в чем преимущество обычного подхода РТК между этим
-
-
-//может взять этот как общий ??
 export const disableAction = (disabled) => ({type: DISABLE, disabled: disabled})
 
 export const asyncIncrementAction = () => (dispath) => {

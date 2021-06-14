@@ -23,13 +23,14 @@ app.get('/product/group', (req, res) => {
 
 app.get('/available/productList', timeout, (req, res) => {
   res.json(productList)
+  // res.status(500).render('WTF?')
   }
 )
 
 app.post('/available/productList', timeout, jsonParser, (req, res) => {
   //может обогатить кол-во изменений?
   productList = (req.body.length) ? req.body : productList;
-  res.json({success: false, body: productList})
+  res.json({success: true, body: productList})
   // res.status(500);
   // res.render('error')
 })

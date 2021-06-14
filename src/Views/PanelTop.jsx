@@ -5,8 +5,6 @@ import { decrementAction, incrementAction, asyncIncrementAction} from '../redux/
 
 
 const PanelTop = (props) => {
-    // может кнопку обнулить еще для общего видения концепции
-    console.log(props);
     return (
         <>
             <div>Счетчик {props.counter}</div>
@@ -25,7 +23,6 @@ const PanelTop = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    //shallowEquals
     console.log("mapStateTOP", state)
     return state.top
 }
@@ -40,5 +37,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-//кстати коннект если не указывать второй аргумент сам пробросит dispatch
 export default connect(mapStateToProps, mapDispatchToProps)(PanelTop);

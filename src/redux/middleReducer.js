@@ -1,38 +1,10 @@
-//__ЗАПРОСЫ
-export const getProductGroup = async () => {
-    let resp = await fetch('/product/group');
-    let result = await resp.json();
-    return result;     
- }
-
- export const getProductList = async () => {
-    let resp = await fetch('/available/productList');
-    let result = await resp.json();
-    return result;
-}
-
-export const saveProductList = async (data) => {
-    let resp = await fetch(
-        '/available/productList', 
-        {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-          },
-        body: JSON.stringify(data)
-        },
-    );
-    return resp;
-}
-//__
-
-
+import {getProductGroup, getProductList, saveProductList} from '../api/api';
 
 export const PRODUCT_GROUP = "PRODUCT_GROUP";
 export const PRODUCT_LIST = 'PRODUCT_LIST';
 export const CHANGE_PRODUCTS = 'CHANGE_PRODUCTS';
 export const DISABLED_BUTTON = 'DISABLED_BUTTON';
-export const SAVE_PRODUCT = 'SABE_PRODUCT';
+export const PRODUCTS_FIXATION = 'PRODUCTS_FIXATION';
 
 //ОШИБКИ ЗАКРЫВАТЬ
 
@@ -40,18 +12,37 @@ export const setProductGroupAction = (group) => ({type: PRODUCT_GROUP, payload: 
 export const setProductListAction = (products) => ({type: PRODUCT_LIST, payload: products}) 
 export const changeProductsAction = (newProduct) => ({type: CHANGE_PRODUCTS, payload: newProduct})
 export const disabledButton = (status) => ({type: DISABLED_BUTTON, payload: status})
-//включение отключение лоадеров? использовать общий?
+export const productsFixation = (products) => ({type: PRODUCTS_FIXATION, payload: products});
+
+export const getProductAndGroup = () => {
+    return async (dispatch) => {
+        dispatch(disabledButton(true));
+        const productGroupData = await getProductGroup();
+        const productListData = await getProductList();
+        dispatch(disabledButton(false));
+        if(productListData.success && productGroupData.success){
+            dispatch(setProductGroupAction(productGroupData.list))
+            dispatch(setProductListAction(productListData.list))
+            return {success: true}
+        }
+        return {success: false}
+    }
+}
+
+//здесь можно на сейв менять это все в другуюб компоненту которая просто отображает и тогда ?
 export const saveProductAction = (productList) => {
     return async (dispatch) => {
         dispatch(disabledButton(true));
         const saveProduct = await saveProductList(productList);
-        //сюда экшены на ошибки общие и экшены на на внутренний действия success
+        //сюда экшены на ошибки общие и экшены на внутренний действия success
         console.log(saveProduct);
         if(saveProduct.status === 200){
             const response = await saveProduct.json();
+            console.log(response);
             if(response.success){
                 console.log(response);
-                dispatch(setProductListAction(response.body))
+                //если успех отображать просто в вид таблицы
+                dispatch(productsFixation(response.body))
             } else {
                 //здесь отобразить что не сохранилось
             }
@@ -65,14 +56,12 @@ export const saveProductAction = (productList) => {
     }
 }
 
-
-//отсюда при успехе надо пробрасывать в след панель
-//можно там отображать ошибки и текущие статусы 
-
 const initialState = {
     productGroup: [],
     productList: [],
-    disabled: false
+    disabled: false,
+    isSaveSuccess: false,
+    productsFixation: []
 }
 
 const middleReducer = (state = initialState, action) =>{
@@ -82,13 +71,15 @@ const middleReducer = (state = initialState, action) =>{
         case PRODUCT_GROUP:
             return {...state, productGroup: action.payload}
         case PRODUCT_LIST:
-            return {...state, productList: action.payload}
+            return {...state, isSaveSuccess: false, productList: action.payload}
         case CHANGE_PRODUCTS:
             const newProductList = state.productList.map((item)=> 
                 (item.id === action.payload.id) ? {...item, ...action.payload} : item)
             return {
                 ...state, productList: newProductList
             }
+        case PRODUCTS_FIXATION:
+            return {...state, isSaveSuccess: true, productsFixation: action.payload}
         default: 
             return state;
     }
