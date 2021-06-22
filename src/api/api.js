@@ -29,5 +29,10 @@ export const saveProductList = async (data) => {
         body: JSON.stringify(data)
         },
     );
-    return resp;
+    try {
+        let result = await resp.json();
+        return result
+    } catch (e) {
+        return {success: false}
+    }
 }

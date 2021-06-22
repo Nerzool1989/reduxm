@@ -1,13 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Button from '../components/Button';
+import Text from '../components/Text';
 import { decrementAction, incrementAction, asyncIncrementAction} from '../redux/topReducer';
 
 
 const PanelTop = (props) => {
     return (
         <>
-            <div>Счетчик {props.counter}</div>
+            <h3>Счетчик <Text border>{props.counter}</Text></h3>
             <Button color='primary' disabled={props.disabled} onClick={()=>{props.increment()}}>
                 INCREMENT
             </Button>
@@ -17,19 +18,17 @@ const PanelTop = (props) => {
             <Button styleCustom disabled={props.disabled} onClick={()=>{props.asyncIncrement()}}>
                 ASYNC INCREMENT
             </Button>
-            <div>{props.action}</div>
+            <h3>{props.action}</h3>
         </>
     )
 }
 
 const mapStateToProps = (state) => {
-    console.log("mapStateTOP", state)
     return state.top
 }
 
 
 const mapDispatchToProps = (dispatch) => {
-    console.log('mapDispatchTOP')
     return {
         increment: () => dispatch(incrementAction()),
         decrement: () => dispatch(decrementAction()),

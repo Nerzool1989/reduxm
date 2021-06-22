@@ -9,11 +9,12 @@ const reducers = combineReducers(
     {
         top: topReducer,
         middle: middleReducer,
-        bottomReducer
+        bottomReducer: bottomReducer
     }
 );
 
 const store = createStore(reducers, applyMiddleware(thunk));
+
 window.store = store;
 
 export default store;

@@ -7,7 +7,7 @@ const CustomTable = ({table = []}) => {
         <Grid item container justify='center'>
             {table.map(
                 ({id, description, productGroup}) => (
-                    <Grid item xs={12} container justify='center'>
+                    <Grid item xs={12} key={id} container justify='center'>
                         <Grid item style={{margin: 10}}>{`Номер: ${id}`}</Grid>
                         <Divider orientation='vertical'/>
                         <Grid item style={{margin: 10}}>{`Комментарий: ${description}`}</Grid>

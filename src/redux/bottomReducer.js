@@ -1,11 +1,7 @@
 export const SET_SERVER_ERROR = 'SET_SERVER_RESPONSE';
 export const SET_STATUS_RESPONSE = 'SET_STATUS_RESPONSE';
-//обработка ошибки сервера
-//обработка успеха запроса
-//обработка не успеха запроса
 
 
-//ЗДЕСЬ ЭКШЕН КРИЭЙТОР РАССМОТРЕТЬ
 export const setStatusResponse = (status = {}) => {
     const messageStatus = status.success ? 'Успешно получили' : 'Неудача';
     return {
@@ -16,7 +12,6 @@ export const setStatusResponse = (status = {}) => {
 
 
 const initialState = {
-    serverError: '',
     statusResponse: '-',
 };
 

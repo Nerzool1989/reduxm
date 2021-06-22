@@ -11,7 +11,6 @@ import {
 import SelectCustom from '../components/SelectCustom';
 import { setStatusResponse } from '../redux/bottomReducer';
 
-//описать зачем использовать селектор и как, можно выбирать только измененный
 const getMiddleReducer = (state) => state.middle;
 
 
@@ -24,16 +23,12 @@ const PanelMiddle = (props) => {
 
     const getProducts = async () => {
         const result = await dispatch(getProductAndGroup())
-        console.log(result);
         dispatch(setStatusResponse(result));
     }
 
     const saveProducts = async () => {
         const result = await dispatch(saveProductAction(productList));
-        console.log(result)
-        //он возвращает данные и их надо обработать по своему в другом редьюсере
-        
-        //отсюда переносим в третий редьюсер
+        dispatch(setStatusResponse(result))
     }
 
     const handleTextAndSelect = (id) => (e) => {
@@ -41,7 +36,6 @@ const PanelMiddle = (props) => {
         dispatch(changeProductsAction(newProduct))
     }
 
-    // может кнопку обнулить еще для общего видения концепции
     return (
         <>
             <Button color='primary' onClick={getProducts} disabled={disabled}>

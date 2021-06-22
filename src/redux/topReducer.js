@@ -27,7 +27,6 @@ const initialState = {
 }
 
 const topReducer = (state = initialState, action) => {
-    console.log('topReducer');
     switch(action.type){
         case INCREMENT:
             return {

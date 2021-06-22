@@ -6,8 +6,6 @@ export const CHANGE_PRODUCTS = 'CHANGE_PRODUCTS';
 export const DISABLED_BUTTON = 'DISABLED_BUTTON';
 export const PRODUCTS_FIXATION = 'PRODUCTS_FIXATION';
 
-//ОШИБКИ ЗАКРЫВАТЬ
-
 export const setProductGroupAction = (group) => ({type: PRODUCT_GROUP, payload: group})
 export const setProductListAction = (products) => ({type: PRODUCT_LIST, payload: products}) 
 export const changeProductsAction = (newProduct) => ({type: CHANGE_PRODUCTS, payload: newProduct})
@@ -29,30 +27,17 @@ export const getProductAndGroup = () => {
     }
 }
 
-//здесь можно на сейв менять это все в другуюб компоненту которая просто отображает и тогда ?
 export const saveProductAction = (productList) => {
     return async (dispatch) => {
         dispatch(disabledButton(true));
-        const saveProduct = await saveProductList(productList);
-        //сюда экшены на ошибки общие и экшены на внутренний действия success
-        console.log(saveProduct);
-        if(saveProduct.status === 200){
-            const response = await saveProduct.json();
-            console.log(response);
-            if(response.success){
-                console.log(response);
-                //если успех отображать просто в вид таблицы
-                dispatch(productsFixation(response.body))
+        const {success, body} = await saveProductList(productList);
+        dispatch(disabledButton(false))  
+            if(success){
+                dispatch(productsFixation(body))
+                return {success}
             } else {
-                //здесь отобразить что не сохранилось
+                return {success}
             }
-        } else if(saveProduct.status !== 200){
-            //здесь отобразить что вообще какие то проблемы с сервером
-            //обработка ошибки в текущем разделе и снова проброс в след
-        } 
-        dispatch(disabledButton(false))
-        return saveProduct;
-        //но отсюда еще должно полететь данные дальше, чтобы передать в след редьюсер
     }
 }
 
