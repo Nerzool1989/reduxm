@@ -27,6 +27,7 @@ app.get('/available/productList', timeout, (req, res) => {
 )
 
 app.post('/available/productList', timeout, jsonParser, (req, res) => {
+  //закомент
   productList = (req.body.length) ? req.body : productList;
   res.json({success: true, body: productList})
   //раскомментируйте и проверьте ошибку
